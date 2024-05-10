@@ -89,23 +89,21 @@ export default function Form() {
 
   return (
     <form onSubmit={handleCustomSubmit} className="max-w-md mx-auto p-4">
-      <div className="mb-4">
         <label htmlFor="radius" className="block text-gray-700">Radius:</label>
         <input
-          id="radius"
-          type="text"
-          {...register('radius', {
+            id="radius"
+            type="text"
+            {...register('radius', {
             onChange: () => clearMessages(), // Clear all messages on change
-          })}
-          className="mt-1 block w-full text-black border-gray-300 rounded-md shadow-sm"
+            })}
+            className="mt-1 p-2 block w-full text-black border-gray-300 rounded-md shadow-sm"
         />
-        {errors.radius && <p className="text-red-500">{`Form Error: ${errors.radius.message}`}</p>}
-      </div>
-      <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md">Calculate</button>
-      {resultMessage && (
-        <p className={success ? 'text-green-500' : 'text-red-500'}>{resultMessage}</p>
-      )}
-      {apiError && <p className="text-red-500">{apiError}</p>}
+        {errors.radius && <p className="h-6 mt-2 text-red-500">{`Form Error: ${errors.radius.message}`}</p>}
+        <button type="submit" className="bg-blue-500 text-white py-2 mt-2 w-full px-4 rounded-md">Calculate</button>
+        {resultMessage && (
+        <p className={`h-6 m-2 ${success ? 'text-green-500' : 'text-red-500'}`}>{resultMessage}</p>
+        )}
+        {apiError && <p className="h-6 m-2 text-red-500">{apiError}</p>}
     </form>
   );
 }
