@@ -4,14 +4,20 @@ import * as z from 'zod';
 import { useState } from 'react';
 
 const schema = z.object({
-  radius: z
-    .string()
-    .refine((val) => !isNaN(Number(val)), { message: 'Radius must be numeric' })
-    .refine(
-      (val) => Number(val) >= 1 && Number(val) <= 100,
-      { message: 'Radius must be between 1 and 100' }
-    ),
-});
+    radius: z
+      .string()
+      .min(1, { message: 'Radius must be provided' })
+      .refine(val => /^\d*\.?\d+$/.test(val), {
+        message: 'Radius must be numeric',
+      })
+      .refine(
+        val => {
+          const num = Number(val);
+          return num >= 1 && num <= 100;
+        },
+        { message: 'Radius must be between 1 and 100' }
+      ),
+  });
 
 interface FormValues {
   radius: string;
