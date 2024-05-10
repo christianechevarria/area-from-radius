@@ -1,5 +1,3 @@
-'use client';
-
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -24,23 +22,27 @@ export default function Form() {
   const [resultMessage, setResultMessage] = useState<string>('');
   const [success, setSuccess] = useState<boolean | null>(null);
 
-  const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm<FormValues>({
+  const {
+    register,
+    formState: { errors },
+    getValues,
+    trigger,
+    clearErrors,
+  } = useForm<FormValues>({
     resolver: zodResolver(schema),
   });
 
   const clearMessages = () => {
+    // Clear API and result messages
     setApiError('');
     setResultMessage('');
     setSuccess(null);
+
+    // Clear frontend form errors
+    clearErrors('radius');
   };
 
-  const onSubmit = async (data: FormValues) => {
-    clearErrors('radius');
-    setApiError('');
-
-    // Convert radius to a number before submitting to the backend
-    const radiusNum = parseFloat(data.radius);
-
+  const submitToApi = async (radiusNum: number) => {
     try {
       const response = await fetch('/api/validate', {
         method: 'POST',
@@ -67,15 +69,30 @@ export default function Form() {
     }
   };
 
+  const handleCustomSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    clearMessages();
+
+    // Manually trigger form validation
+    await trigger();
+
+    // Get the form value regardless of errors
+    const radiusStr = getValues('radius');
+    const radiusNum = parseFloat(radiusStr);
+
+    // Submit to API even with client-side errors
+    submitToApi(radiusNum);
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto p-4">
+    <form onSubmit={handleCustomSubmit} className="max-w-md mx-auto p-4">
       <div className="mb-4">
         <label htmlFor="radius" className="block text-gray-700">Radius:</label>
         <input
           id="radius"
           type="text"
           {...register('radius', {
-            onChange: () => clearMessages(),
+            onChange: () => clearMessages(), // Clear all messages on change
           })}
           className="mt-1 block w-full text-black border-gray-300 rounded-md shadow-sm"
         />
