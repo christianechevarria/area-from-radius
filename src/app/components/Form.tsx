@@ -98,7 +98,7 @@ export default function Form() {
             })}
             className="mt-1 p-2 block w-full text-black border-2 border-gray-400 focus:border-blue-500 rounded-md shadow-sm"
         />
-        {errors.radius && <p className="h-6 mt-2 text-red-500">{`Form Error: ${errors.radius.message}`}</p>}
+        {errors.radius && <p className="mt-2 text-red-500">{`Form Error: ${errors.radius.message}`}</p>}
         <button type="submit" className="bg-blue-500 text-white py-2 mt-2 w-full px-4 rounded-md">Calculate</button>
         {resultMessage && (
         <p className={`m-2 ${success ? 'text-green-500' : 'text-red-500'}`}>{resultMessage}</p>
