@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 interface FormValues {
-  radius: string | number;
+  radius: string;
 }
 
 export async function POST(request: Request) {
@@ -16,17 +16,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Radius must be provided' }, { status: 400 });
   }
 
-  // Normalize radius to a string if it's a number, then trim it
-  const radiusStr = typeof radius === "number" ? radius.toString() : radius.trim();
-
-  // Validate that the normalized radius is strictly numeric with optional decimal points
-  if (!/^\d*\.?\d+$/.test(radiusStr)) {
+  const isString = typeof radius === "string";
+  if (isString && !/^\d*\.?\d+$/.test(radius)) {
     console.error('Server Error: Invalid radius value', { radius });
     return NextResponse.json({ error: 'Radius must be numeric' }, { status: 400 });
   }
 
   // Convert the valid string to a number
-  const radiusNum = parseFloat(radiusStr);
+  const radiusNum = isString ? parseFloat(radius) : radius;
 
   // Check if the conversion to number was successful and the value is within range
   if (isNaN(radiusNum) || radiusNum < 1 || radiusNum > 100) {
