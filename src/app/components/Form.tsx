@@ -101,9 +101,9 @@ export default function Form() {
         {errors.radius && <p className="h-6 mt-2 text-red-500">{`Form Error: ${errors.radius.message}`}</p>}
         <button type="submit" className="bg-blue-500 text-white py-2 mt-2 w-full px-4 rounded-md">Calculate</button>
         {resultMessage && (
-        <p className={`h-6 m-2 ${success ? 'text-green-500' : 'text-red-500'}`}>{resultMessage}</p>
+        <p className={`m-2 ${success ? 'text-green-500' : 'text-red-500'}`}>{resultMessage}</p>
         )}
-        {apiError && <p className="h-6 m-2 text-red-500">{apiError}</p>}
+        {apiError && <p className="m-2 text-red-500">{apiError}</p>}
     </form>
   );
 }
