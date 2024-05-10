@@ -6,6 +6,7 @@ import { useState } from 'react';
 const schema = z.object({
     radius: z
       .string()
+      .trim()
       .min(1, { message: 'Radius must be provided' })
       .refine(val => /^\d*\.?\d+$/.test(val), {
         message: 'Radius must be numeric',
