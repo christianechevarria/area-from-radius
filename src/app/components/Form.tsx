@@ -88,7 +88,7 @@ export default function Form() {
   };
 
   return (
-    <form onSubmit={handleCustomSubmit} className="max-w-md mx-auto p-4">
+    <form onSubmit={handleCustomSubmit} className="max-w-md mx-auto p-4 bg-white">
         <label htmlFor="radius" className="block text-gray-700">Radius:</label>
         <input
             id="radius"
@@ -96,7 +96,7 @@ export default function Form() {
             {...register('radius', {
             onChange: () => clearMessages(), // Clear all messages on change
             })}
-            className="mt-1 p-2 block w-full text-black border-gray-300 rounded-md shadow-sm"
+            className="mt-1 p-2 block w-full text-black border-2 border-gray-400 focus:border-blue-500 rounded-md shadow-sm"
         />
         {errors.radius && <p className="h-6 mt-2 text-red-500">{`Form Error: ${errors.radius.message}`}</p>}
         <button type="submit" className="bg-blue-500 text-white py-2 mt-2 w-full px-4 rounded-md">Calculate</button>
