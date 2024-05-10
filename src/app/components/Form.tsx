@@ -48,7 +48,7 @@ export default function Form() {
     clearErrors('radius');
   };
 
-  const submitToApi = async (radiusNum: number) => {
+  const submitToApi = async (radiusNum: string | number) => {
     try {
       const response = await fetch('/api/validate', {
         method: 'POST',
@@ -81,13 +81,9 @@ export default function Form() {
 
     // Manually trigger form validation
     await trigger();
-
-    // Get the form value regardless of errors
-    const radiusStr = getValues('radius');
-    const radiusNum = parseFloat(radiusStr);
-
+    
     // Submit to API even with client-side errors
-    submitToApi(radiusNum);
+    submitToApi(getValues('radius'));
   };
 
   return (
