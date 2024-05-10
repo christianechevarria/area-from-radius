@@ -7,6 +7,12 @@ interface FormValues {
 export async function POST(request: Request) {
   const { radius }: FormValues = await request.json();
 
+  // Ensure the radius is provided
+  if (radius == null || radius === "") {
+    console.error('Server Error: Radius must be provided');
+    return NextResponse.json({ error: 'Radius must be provided' }, { status: 400 });
+  }
+
   // Validate that the radius is numeric
   if (typeof radius !== 'number' || isNaN(radius)) {
     console.error('Server Error: Invalid radius value', { radius });
